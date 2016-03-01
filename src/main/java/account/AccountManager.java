@@ -2,7 +2,7 @@ package account;
 
 import util.ServerAnswer;
 
-/**
+/*
  * Created by kvukolov on 18.02.16.
  */
 public interface AccountManager {

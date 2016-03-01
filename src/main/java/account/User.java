@@ -1,7 +1,5 @@
 package account;
 
-import javax.jws.soap.SOAPBinding;
-
 public class User {
 
     private String login = null;
@@ -21,6 +19,18 @@ public class User {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getLogin() {

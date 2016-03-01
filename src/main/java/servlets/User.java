@@ -77,7 +77,12 @@ public class User extends HttpServlet {
             Util.servletError(HttpServletResponse.SC_FORBIDDEN, answer, resp);
             return;
         }
-        
+
+        account.User user = accountManager.getUserBySession(req.getSession().getId());
+        user.setLogin(login);
+        user.setEmail(email);
+        user.setPassword(password);
+        resp.setStatus(HttpServletResponse.SC_OK);
     }
 
     @Override

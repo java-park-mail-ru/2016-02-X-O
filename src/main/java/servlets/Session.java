@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-/**
+/*
  * Created by kvukolov on 29.02.16.
  */
 public class Session extends HttpServlet {

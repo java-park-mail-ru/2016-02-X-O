@@ -20,6 +20,16 @@ import javax.servlet.http.LoginRequiredPost;
 public class Main {
 
     public static void main(String[] args) throws Exception {
+        int port;
+        try
+        {
+            port = Integer.parseInt(args[0]);
+        }
+        catch (IndexOutOfBoundsException | NumberFormatException e)
+        {
+            usage();
+            return;
+        }
 
         RegexManager.getInstance().put(RegexId.LOGIN_REGEX, "\\w{5,20}");
         RegexManager.getInstance().put(RegexId.EMAIL_REGEX, "^([A-Za-z0-9_\\-\\.])+\\@([A-Za-z0-9_\\-\\.])+\\.([A-Za-z]{2,4})$");
@@ -56,9 +66,14 @@ public class Main {
         HandlerList handlers = new HandlerList();
         handlers.setHandlers(new Handler[]{resource_handler, contextHandler});
 
-        Server server = new Server(8080);
+        Server server = new Server(port);
         server.setHandler(handlers);
         server.start();
         server.join();
+    }
+
+    private static void usage()
+    {
+        System.out.println("Add valid port as parameter");
     }
 }

@@ -8,7 +8,7 @@ import util.Util;
 import javax.servlet.ServletException;
 import java.io.IOException;
 
-/**
+/*
  * Created by kvukolov on 29.02.16.
  */
 public class LoginRequiredDelete extends HttpServletDecorator {
