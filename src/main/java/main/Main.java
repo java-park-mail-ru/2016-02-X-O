@@ -1,5 +1,6 @@
 package main;
 
+import database.DBService;
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.handler.HandlerList;
 import org.eclipse.jetty.server.handler.ResourceHandler;
@@ -20,7 +21,7 @@ import javax.servlet.http.LoginRequiredPost;
 public class Main {
 
     public static void main(String[] args) throws Exception {
-        int port;
+        final int port;
         try
         {
             port = Integer.parseInt(args[0]);
@@ -52,21 +53,21 @@ public class Main {
                         )
                 ), "/session"));
 
-        ServletContextHandler contextHandler = new ServletContextHandler(ServletContextHandler.SESSIONS);
+        final ServletContextHandler contextHandler = new ServletContextHandler(ServletContextHandler.SESSIONS);
 
         for (ServletDefinition definition: ServletManager.getManager())
         {
             contextHandler.addServlet(new ServletHolder(definition.getServlet()), definition.getUrl());
         }
 
-        ResourceHandler resource_handler = new ResourceHandler();
-        resource_handler.setDirectoriesListed(true);
-        resource_handler.setResourceBase("public_html");
+        final ResourceHandler resourceHandler = new ResourceHandler();
+        resourceHandler.setDirectoriesListed(true);
+        resourceHandler.setResourceBase("public_html");
 
-        HandlerList handlers = new HandlerList();
-        handlers.setHandlers(new Handler[]{resource_handler, contextHandler});
+        final HandlerList handlers = new HandlerList();
+        handlers.setHandlers(new Handler[]{resourceHandler, contextHandler});
 
-        Server server = new Server(port);
+        final Server server = new Server(port);
         server.setHandler(handlers);
         server.start();
         server.join();

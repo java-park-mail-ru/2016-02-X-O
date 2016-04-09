@@ -16,12 +16,10 @@ public class InmemoryAccountManager implements AccountManager {
     private Map<String, User> signedUpUsers = new HashMap<>();
     private Map<String, String> signedInUsers = new HashMap<>();
 
-    public InmemoryAccountManager() {
-    }
-
+    @Override
     public ServerAnswer addUser(String login, String email, String password)
     {
-        User user = new User(login, email, password);
+        final User user = new User(login, email, password);
         for (User signuppedUser: signedUpUsers.values())
         {
             if (signuppedUser.getLogin().equals(user.getLogin()))
@@ -39,9 +37,10 @@ public class InmemoryAccountManager implements AccountManager {
         return ServerAnswer.OK;
     }
 
+    @Override
     public ServerAnswer authenticate(String sessionId, String login, String password)
     {
-        User signuppedUser = signedUpUsers.get(login);
+        final User signuppedUser = signedUpUsers.get(login);
         if (signuppedUser == null || !signuppedUser.getPassword().equals(password))
         {
             return ServerAnswer.WRONG_CREDENTIALS;
@@ -86,5 +85,10 @@ public class InmemoryAccountManager implements AccountManager {
     @Override
     public void deleteUser(String login) {
         signedUpUsers.remove(login);
+    }
+
+    @Override
+    public void updateUser(long id, User user) {
+        //TODO
     }
 }

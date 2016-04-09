@@ -18,7 +18,7 @@ public class User extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String id = req.getParameter("id");
+        final String id = req.getParameter("id");
 
         if (!Util.notNullObjects(id))
         {
@@ -26,26 +26,26 @@ public class User extends HttpServlet {
             return;
         }
 
-        RegexCheckedParameter[] regexCheckedParameters = {
+        final RegexCheckedParameter[] regexCheckedParameters = {
                 new RegexCheckedParameter(id, RegexId.ID_REGEX, ServerAnswer.BAD_ID)
         };
 
-        ServerAnswer answer = Util.checkParamersByRegex(regexCheckedParameters);
+        final ServerAnswer answer = Util.checkParamersByRegex(regexCheckedParameters);
         if (answer != ServerAnswer.OK)
         {
             Util.servletError(HttpServletResponse.SC_FORBIDDEN, answer, resp);
             return;
         }
 
-        long numId = Long.parseLong(id);
-        account.User user = accountManager.getUserById(numId);
+        final long numId = Long.parseLong(id);
+        final account.User user = accountManager.getUserById(numId);
         if (user == null)
         {
             Util.servletError(HttpServletResponse.SC_UNAUTHORIZED, ServerAnswer.NO_USER, resp);
             return;
         }
 
-        ResponseJson responseJson = new ResponseJson();
+        final ResponseJson responseJson = new ResponseJson();
         responseJson.put("id", id);
         responseJson.put("login", user.getLogin());
         responseJson.put("email", user.getEmail());
@@ -55,9 +55,9 @@ public class User extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String login = req.getParameter("login");
-        String email = req.getParameter("email");
-        String password = req.getParameter("password");
+        final String login = req.getParameter("login");
+        final String email = req.getParameter("email");
+        final String password = req.getParameter("password");
 
         if (!Util.notNullObjects(login, email, password))
         {
@@ -65,31 +65,32 @@ public class User extends HttpServlet {
             return;
         }
 
-        RegexCheckedParameter[] regexCheckedParameters = {
+        final RegexCheckedParameter[] regexCheckedParameters = {
                 new RegexCheckedParameter(login, RegexId.LOGIN_REGEX, ServerAnswer.BAD_LOGIN),
                 new RegexCheckedParameter(email, RegexId.EMAIL_REGEX, ServerAnswer.BAD_EMAIL),
                 new RegexCheckedParameter(password, RegexId.PASSWORD_REGEX, ServerAnswer.BAD_PASSWORD)
         };
 
-        ServerAnswer answer = Util.checkParamersByRegex(regexCheckedParameters);
+        final ServerAnswer answer = Util.checkParamersByRegex(regexCheckedParameters);
         if (answer != ServerAnswer.OK)
         {
             Util.servletError(HttpServletResponse.SC_FORBIDDEN, answer, resp);
             return;
         }
 
-        account.User user = accountManager.getUserBySession(req.getSession().getId());
+        final account.User user = accountManager.getUserBySession(req.getSession().getId());
         user.setLogin(login);
         user.setEmail(email);
         user.setPassword(password);
+
         resp.setStatus(HttpServletResponse.SC_OK);
     }
 
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String login = req.getParameter("login");
-        String email = req.getParameter("email");
-        String password = req.getParameter("password");
+        final String login = req.getParameter("login");
+        final String email = req.getParameter("email");
+        final String password = req.getParameter("password");
 
         if (!Util.notNullObjects(login, email, password))
         {
@@ -97,7 +98,7 @@ public class User extends HttpServlet {
             return;
         }
 
-        RegexCheckedParameter[] regexCheckedParameters = {
+        final RegexCheckedParameter[] regexCheckedParameters = {
                 new RegexCheckedParameter(login, RegexId.LOGIN_REGEX, ServerAnswer.BAD_LOGIN),
                 new RegexCheckedParameter(email, RegexId.EMAIL_REGEX, ServerAnswer.BAD_EMAIL),
                 new RegexCheckedParameter(password, RegexId.PASSWORD_REGEX, ServerAnswer.BAD_PASSWORD)
@@ -119,15 +120,15 @@ public class User extends HttpServlet {
 
 
         resp.setStatus(HttpServletResponse.SC_OK);
-        ResponseJson responseJson = new ResponseJson();
+        final ResponseJson responseJson = new ResponseJson();
         responseJson.put("id", accountManager.getUserByLogin(login).getId());
         resp.getWriter().println(responseJson);
     }
 
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String sessionId = req.getSession().getId();
-        account.User user = accountManager.getUserBySession(sessionId);
+        final String sessionId = req.getSession().getId();
+        final account.User user = accountManager.getUserBySession(sessionId);
         accountManager.logout(sessionId);
         accountManager.deleteUser(user.getLogin());
     }

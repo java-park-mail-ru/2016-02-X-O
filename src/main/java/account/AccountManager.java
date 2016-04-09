@@ -14,4 +14,5 @@ public interface AccountManager {
     User getUserByLogin(String login);
     User getUserById(long id);
     void deleteUser(String login);
+    void updateUser(long id, User user);
 }
