@@ -60,7 +60,7 @@ public class AccountServiceTest {
     @Test
     public void getUserTest(){
         accountManager.addUser(login, email, password);
-        User user = accountManager.getUserByLogin(login);
+        final User user = accountManager.getUserByLogin(login);
         TestCase.assertEquals(login, user.getLogin());
         TestCase.assertEquals(email, user.getEmail());
         TestCase.assertEquals(password, user.getPassword());
