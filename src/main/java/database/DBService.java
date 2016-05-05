@@ -42,6 +42,15 @@ public final class DBService {
         transaction.commit();
     }
 
+    public void update(UserDataset dataSet)
+    {
+        final Session session = sessionFactory.openSession();
+        final Transaction transaction = session.beginTransaction();
+        final UserDataSetDAO dao = new UserDataSetDAO(session);
+        dao.update(dataSet);
+        transaction.commit();
+    }
+
     public UserDataset readByName(String name) {
         final Session session = sessionFactory.openSession();
         final UserDataSetDAO dao = new UserDataSetDAO(session);
@@ -93,6 +102,7 @@ public final class DBService {
     public void deleteByLogin(String login)
     {
         final Session session = sessionFactory.openSession();
+        final Transaction transaction = session.beginTransaction();
         try
         {
             final UserDataset user = readByName(login);
@@ -100,6 +110,7 @@ public final class DBService {
             dao.delete(user);
         }
         finally {
+            transaction.commit();
             session.close();
         }
     }

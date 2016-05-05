@@ -41,6 +41,6 @@ public class Util {
             }
         }
 
-        return ServerAnswer.OK;
+        return ServerAnswer.OK_ANSWER;
     }
 }

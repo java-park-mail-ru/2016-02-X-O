@@ -31,7 +31,7 @@ public class User extends HttpServlet {
         };
 
         final ServerAnswer answer = Util.checkParamersByRegex(regexCheckedParameters);
-        if (answer != ServerAnswer.OK)
+        if (answer != ServerAnswer.OK_ANSWER)
         {
             Util.servletError(HttpServletResponse.SC_FORBIDDEN, answer, resp);
             return;
@@ -72,7 +72,7 @@ public class User extends HttpServlet {
         };
 
         final ServerAnswer answer = Util.checkParamersByRegex(regexCheckedParameters);
-        if (answer != ServerAnswer.OK)
+        if (answer != ServerAnswer.OK_ANSWER)
         {
             Util.servletError(HttpServletResponse.SC_FORBIDDEN, answer, resp);
             return;
@@ -82,6 +82,7 @@ public class User extends HttpServlet {
         user.setLogin(login);
         user.setEmail(email);
         user.setPassword(password);
+        user.save();
 
         resp.setStatus(HttpServletResponse.SC_OK);
     }
@@ -105,14 +106,14 @@ public class User extends HttpServlet {
         };
 
         ServerAnswer answer = Util.checkParamersByRegex(regexCheckedParameters);
-        if (answer != ServerAnswer.OK)
+        if (answer != ServerAnswer.OK_ANSWER)
         {
             Util.servletError(HttpServletResponse.SC_FORBIDDEN, answer, resp);
             return;
         }
 
         answer = accountManager.addUser(login, email, password);
-        if (answer != ServerAnswer.OK)
+        if (answer != ServerAnswer.OK_ANSWER)
         {
             Util.servletError(HttpServletResponse.SC_FORBIDDEN, answer, resp);
             return;

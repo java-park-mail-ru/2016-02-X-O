@@ -13,14 +13,14 @@ public class InmemoryAccountManager implements AccountManager {
 
     private static long currentId = 1;
 
-    private Map<String, User> signedUpUsers = new HashMap<>();
+    private Map<String, UserImpl> signedUpUsers = new HashMap<>();
     private Map<String, String> signedInUsers = new HashMap<>();
 
     @Override
     public ServerAnswer addUser(String login, String email, String password)
     {
-        final User user = new User(login, email, password);
-        for (User signuppedUser: signedUpUsers.values())
+        final UserImpl user = new UserImpl(login, email, password);
+        for (UserImpl signuppedUser: signedUpUsers.values())
         {
             if (signuppedUser.getLogin().equals(user.getLogin()))
             {
@@ -34,19 +34,19 @@ public class InmemoryAccountManager implements AccountManager {
         signedUpUsers.put(user.getLogin(), user);
         user.setId(currentId);
         currentId++;
-        return ServerAnswer.OK;
+        return ServerAnswer.OK_ANSWER;
     }
 
     @Override
     public ServerAnswer authenticate(String sessionId, String login, String password)
     {
-        final User signuppedUser = signedUpUsers.get(login);
+        final UserImpl signuppedUser = signedUpUsers.get(login);
         if (signuppedUser == null || !signuppedUser.getPassword().equals(password))
         {
             return ServerAnswer.WRONG_CREDENTIALS;
         }
         signedInUsers.put(sessionId, signuppedUser.getLogin());
-        return ServerAnswer.OK;
+        return ServerAnswer.OK_ANSWER;
     }
 
     @Override
@@ -61,18 +61,18 @@ public class InmemoryAccountManager implements AccountManager {
     }
 
     @Override
-    public User getUserBySession(String sessionId) {
+    public UserImpl getUserBySession(String sessionId) {
         return signedUpUsers.get(signedInUsers.get(sessionId));
     }
 
     @Override
-    public User getUserByLogin(String login) {
+    public UserImpl getUserByLogin(String login) {
         return signedUpUsers.get(login);
     }
 
     @Override
-    public User getUserById(long id) {
-        for (User user: signedUpUsers.values())
+    public UserImpl getUserById(long id) {
+        for (UserImpl user: signedUpUsers.values())
         {
             if (user.getId() == id)
             {
@@ -89,6 +89,6 @@ public class InmemoryAccountManager implements AccountManager {
 
     @Override
     public void updateUser(long id, User user) {
-        //TODO
+
     }
 }

@@ -2,7 +2,6 @@ package account;
 
 import database.DBService;
 import database.datasets.UserDataset;
-import servlets.Session;
 import util.ServerAnswer;
 
 import java.util.HashMap;
@@ -27,7 +26,7 @@ public class DataBaseAccountManager implements AccountManager {
         }
         final UserDataset user = new UserDataset(login, email, password);
         dbService.save(user);
-        return ServerAnswer.OK;
+        return ServerAnswer.OK_ANSWER;
     }
 
     @Override
@@ -38,7 +37,7 @@ public class DataBaseAccountManager implements AccountManager {
             if (user.getPassword().equals(password))
             {
                 signedInUsers.put(sessionId, user.getName());
-                return ServerAnswer.OK;
+                return ServerAnswer.OK_ANSWER;
             }
             return ServerAnswer.WRONG_CREDENTIALS;
         }
@@ -58,15 +57,13 @@ public class DataBaseAccountManager implements AccountManager {
     @Override
     public User getUserBySession(String sessionId) {
         final UserDataset user = dbService.readByName(signedInUsers.get(sessionId));
-        final User userr =  new User(user.getName(), user.getEmail(), user.getPassword());
-        userr.setId(user.getId());
-        return userr;
+        return new DataSetToUserAdapter(user);
     }
 
     @Override
     public User getUserByLogin(String login) {
         final UserDataset user = dbService.readByName(login);
-        final User userr =  new User(user.getName(), user.getEmail(), user.getPassword());
+        final UserImpl userr =  new UserImpl(user.getName(), user.getEmail(), user.getPassword());
         userr.setId(user.getId());
         return userr;
     }
@@ -74,7 +71,11 @@ public class DataBaseAccountManager implements AccountManager {
     @Override
     public User getUserById(long id) {
         final UserDataset user = dbService.readById(id);
-        final User userr =  new User(user.getName(), user.getEmail(), user.getPassword());
+        if (user == null)
+        {
+            return null;
+        }
+        final UserImpl userr =  new UserImpl(user.getName(), user.getEmail(), user.getPassword());
         userr.setId(user.getId());
         return userr;
     }

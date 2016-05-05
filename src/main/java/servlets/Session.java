@@ -48,14 +48,14 @@ public class Session extends HttpServlet {
         };
 
         ServerAnswer answer = Util.checkParamersByRegex(regexCheckedParameters);
-        if (!(answer == ServerAnswer.OK))
+        if (!(answer == ServerAnswer.OK_ANSWER))
         {
             Util.servletError(HttpServletResponse.SC_BAD_REQUEST, answer, resp);
             return;
         }
 
         answer = accountManager.authenticate(req.getSession().getId(), login, password);
-        if (!(answer == ServerAnswer.OK))
+        if (!(answer == ServerAnswer.OK_ANSWER))
         {
             Util.servletError(HttpServletResponse.SC_BAD_REQUEST, answer, resp);
             return;

@@ -5,7 +5,6 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
-import servlets.User;
 
 import java.util.List;
 
@@ -17,7 +16,14 @@ public class UserDataSetDAO {
     }
 
     public void save(UserDataset dataSet) {
-        session.save(dataSet);
+        session.saveOrUpdate(dataSet);
+        session.flush();
+        session.close();
+    }
+
+    public void update(UserDataset dataset)
+    {
+        session.update(dataset);
         session.close();
     }
 
@@ -57,5 +63,6 @@ public class UserDataSetDAO {
     public void delete(UserDataset user)
     {
         session.delete(user);
+        session.flush();
     }
 }
