@@ -18,10 +18,10 @@ public class Session extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        account.User user = accountManager.getUserBySession(req.getSession().getId());
+        final account.User user = accountManager.getUserBySession(req.getSession().getId());
 
         resp.setStatus(HttpServletResponse.SC_OK);
-        ResponseJson responseJson = new ResponseJson();
+        final ResponseJson responseJson = new ResponseJson();
         responseJson.put("id", user.getId());
         resp.getWriter().println(responseJson);
     }
@@ -33,8 +33,8 @@ public class Session extends HttpServlet {
 
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String login = req.getParameter("login");
-        String password = req.getParameter("password");
+        final String login = req.getParameter("login");
+        final String password = req.getParameter("password");
 
         if (!Util.notNullObjects(login, password))
         {
@@ -42,27 +42,27 @@ public class Session extends HttpServlet {
             return;
         }
 
-        RegexCheckedParameter[] regexCheckedParameters = {
+        final RegexCheckedParameter[] regexCheckedParameters = {
                 new RegexCheckedParameter(login, RegexId.LOGIN_REGEX, ServerAnswer.BAD_LOGIN),
                 new RegexCheckedParameter(password, RegexId.PASSWORD_REGEX, ServerAnswer.BAD_PASSWORD)
         };
 
         ServerAnswer answer = Util.checkParamersByRegex(regexCheckedParameters);
-        if (!(answer == ServerAnswer.OK))
+        if (!(answer == ServerAnswer.OK_ANSWER))
         {
             Util.servletError(HttpServletResponse.SC_BAD_REQUEST, answer, resp);
             return;
         }
 
         answer = accountManager.authenticate(req.getSession().getId(), login, password);
-        if (!(answer == ServerAnswer.OK))
+        if (!(answer == ServerAnswer.OK_ANSWER))
         {
             Util.servletError(HttpServletResponse.SC_BAD_REQUEST, answer, resp);
             return;
         }
 
         resp.setStatus(HttpServletResponse.SC_OK);
-        ResponseJson responseJson = new ResponseJson();
+        final ResponseJson responseJson = new ResponseJson();
         responseJson.put("id", accountManager.getUserByLogin(login).getId());
         resp.getWriter().println(responseJson);
     }

@@ -11,7 +11,7 @@ public class Util {
     public static void servletError(int responseStatus, ServerAnswer answer, HttpServletResponse response) throws IOException
     {
         response.setStatus(responseStatus);
-        ResponseJson responseJson = new ResponseJson();
+        final ResponseJson responseJson = new ResponseJson();
         responseJson.loadError(answer.getValue());
         response.getWriter().println(responseJson);
     }
@@ -30,17 +30,17 @@ public class Util {
 
     public static ServerAnswer checkParamersByRegex(RegexCheckedParameter[] parameters)
     {
-        RegexManager regexes = RegexManager.getInstance();
+        final RegexManager regexes = RegexManager.getInstance();
 
         for (RegexCheckedParameter parameter: parameters)
         {
-            Pattern pattern = regexes.get(parameter.getRegexId());
+            final Pattern pattern = regexes.get(parameter.getRegexId());
             if (!(pattern == null) && !pattern.matcher(parameter.getValue()).matches())
             {
                 return parameter.getAnswer();
             }
         }
 
-        return ServerAnswer.OK;
+        return ServerAnswer.OK_ANSWER;
     }
 }
