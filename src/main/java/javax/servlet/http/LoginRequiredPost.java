@@ -1,7 +1,7 @@
 package javax.servlet.http;
 
 import account.AccountManager;
-import account.MainAccountManager;
+import util.Context;
 import util.ServerAnswer;
 import util.Util;
 
@@ -13,7 +13,8 @@ import java.io.IOException;
  */
 public class LoginRequiredPost extends HttpServletDecorator
 {
-    AccountManager accountService = MainAccountManager.getManager();
+    Context context = Context.getInstance();
+    AccountManager accountService = (AccountManager) this.context.get(AccountManager.class);
 
     public LoginRequiredPost(HttpServlet servlet) {
         super(servlet);

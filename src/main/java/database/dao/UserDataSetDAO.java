@@ -18,13 +18,11 @@ public class UserDataSetDAO {
     public void save(UserDataset dataSet) {
         session.saveOrUpdate(dataSet);
         session.flush();
-        session.close();
     }
 
     public void update(UserDataset dataset)
     {
         session.update(dataset);
-        session.close();
     }
 
     public UserDataset readByName(String name) {

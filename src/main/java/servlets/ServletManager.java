@@ -10,13 +10,6 @@ import java.util.List;
 public final class ServletManager implements Iterable<ServletDefinition> {
     private List<ServletDefinition> definitionList = new ArrayList<>();
 
-    private static ServletManager ourInstance = new ServletManager();
-    public static ServletManager getManager() {
-        return ourInstance;
-    }
-    private ServletManager() {
-    }
-
     @Override
     public Iterator<ServletDefinition> iterator() {
         return definitionList.iterator();

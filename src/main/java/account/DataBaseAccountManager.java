@@ -2,6 +2,7 @@ package account;
 
 import database.DBService;
 import database.datasets.UserDataset;
+import util.Context;
 import util.ServerAnswer;
 
 import java.util.HashMap;
@@ -12,7 +13,7 @@ import java.util.Map;
  */
 public class DataBaseAccountManager implements AccountManager {
     private Map<String, String> signedInUsers = new HashMap<>();
-    private DBService dbService = DBService.getService();
+    private DBService dbService = (DBService)Context.getInstance().get(DBService.class);
 
     @Override
     public ServerAnswer addUser(String login, String email, String password) {

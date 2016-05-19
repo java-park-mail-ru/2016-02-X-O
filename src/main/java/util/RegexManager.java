@@ -10,13 +10,6 @@ import java.util.regex.Pattern;
 public final class RegexManager {
     private Map<RegexId, Pattern> regexes = new HashMap<>();
 
-    private static RegexManager ourInstance = new RegexManager();
-    public static RegexManager getInstance() {
-        return ourInstance;
-    }
-    private RegexManager() {
-    }
-
     public void put(RegexId id, String regex)
     {
         regexes.put(id, Pattern.compile(regex));

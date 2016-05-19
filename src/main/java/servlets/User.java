@@ -1,7 +1,6 @@
 package servlets;
 
 import account.AccountManager;
-import account.MainAccountManager;
 import util.*;
 
 import javax.servlet.ServletException;
@@ -14,7 +13,8 @@ import java.io.IOException;
  * Created by kvukolov on 29.02.16.
  */
 public class User extends HttpServlet {
-    AccountManager accountManager = MainAccountManager.getManager();
+    Context context = Context.getInstance();
+    AccountManager accountManager = (AccountManager) this.context.get(AccountManager.class);
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

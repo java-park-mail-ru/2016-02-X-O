@@ -11,10 +11,10 @@ public class UserDataset
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "login")
+    @Column(name = "login", unique=true)
     private String login;
 
-    @Column(name = "email")
+    @Column(name = "email", unique=true)
     private String email;
 
     @Column(name = "password")
@@ -25,6 +25,8 @@ public class UserDataset
         this.email = email;
         this.password = password;
     }
+
+    public UserDataset(){}
 
     public void setLogin(String login) {
         this.login = login;

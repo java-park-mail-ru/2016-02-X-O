@@ -12,25 +12,10 @@ import java.util.List;
 public final class DBService {
     private SessionFactory sessionFactory;
 
-    private static DBService instance = new DBService();
-    public static DBService getService()
-    {
-        return instance;
-    }
 
 
-    private DBService() {
-        final Configuration configuration = new Configuration();
+    public DBService(Configuration configuration) {
         configuration.addAnnotatedClass(UserDataset.class);
-
-        configuration.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQLDialect");
-        configuration.setProperty("hibernate.connection.driver_class", "com.mysql.jdbc.Driver");
-        configuration.setProperty("hibernate.connection.url", "jdbc:mysql://localhost/tictactoe");
-        configuration.setProperty("hibernate.connection.username", "root");
-        configuration.setProperty("hibernate.connection.password", "password");
-        configuration.setProperty("hibernate.show_sql", "true");
-        //configuration.setProperty("hibernate.hbm2ddl.auto", "create");
-
         sessionFactory = createSessionFactory(configuration);
     }
 
