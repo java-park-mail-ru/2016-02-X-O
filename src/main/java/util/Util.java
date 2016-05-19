@@ -30,7 +30,8 @@ public class Util {
 
     public static ServerAnswer checkParamersByRegex(RegexCheckedParameter[] parameters)
     {
-        final RegexManager regexes = RegexManager.getInstance();
+        final Context context = Context.getInstance();
+        final RegexManager regexes = (RegexManager)context.get(RegexManager.class);
 
         for (RegexCheckedParameter parameter: parameters)
         {

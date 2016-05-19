@@ -2,6 +2,7 @@ package account;
 
 import database.DBService;
 import database.datasets.UserDataset;
+import util.Context;
 
 /**
  * Created by kvukolov on 05.05.16.
@@ -54,6 +55,6 @@ public class DataSetToUserAdapter implements User {
 
     @Override
     public void save(){
-        DBService.getService().save(userDataset);
+        ((DBService) Context.getInstance().get(DBService.class)).save(userDataset);
     }
 }

@@ -1,20 +1,42 @@
 import account.AccountManager;
-import account.MainAccountManager;
+import account.DataBaseAccountManager;
 import account.User;
+import database.DBService;
 import junit.framework.TestCase;
+import org.junit.Before;
 import org.junit.Test;
+import resource.Builder;
+import resource.handlers.DBServiceHandler;
+import util.Context;
 import util.ServerAnswer;
 
 /**
  * Created by kvukolov on 05.05.16.
  */
 public class AccountServiceTest {
-    AccountManager accountManager = MainAccountManager.getManager();
     final String login = "login";
     final String email = "email@email.com";
     final String password = "password";
     final String sessionId = "sessionId";
     final String otherLogin = "login1";
+
+    AccountManager accountManager;
+
+    @Before
+    public void install(){
+        final Context context = Context.getInstance();
+        try
+        {
+            final DBService dbService = (DBService) new Builder("config/database-test.xml", new DBServiceHandler()).build();
+            context.add(DBService.class, dbService);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+            System.exit(1);
+        }
+        accountManager = new DataBaseAccountManager();
+    }
 
     @Test
     public void addUserTest(){
