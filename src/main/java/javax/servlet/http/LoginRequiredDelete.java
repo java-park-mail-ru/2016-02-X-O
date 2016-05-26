@@ -1,7 +1,7 @@
 package javax.servlet.http;
 
 import account.AccountManager;
-import account.MainAccountManager;
+import util.Context;
 import util.ServerAnswer;
 import util.Util;
 
@@ -12,7 +12,8 @@ import java.io.IOException;
  * Created by kvukolov on 29.02.16.
  */
 public class LoginRequiredDelete extends HttpServletDecorator {
-    AccountManager accountService = MainAccountManager.getManager();
+    Context context = Context.getInstance();
+    AccountManager accountService = (AccountManager) this.context.get(AccountManager.class);
 
     public LoginRequiredDelete(HttpServlet servlet) {
         super(servlet);

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<servlets>
+    <servlet class="servlets.User" url="/user">
+            <decorator class="javax.servlet.http.LoginRequiredPost"/>
+            <decorator class="javax.servlet.http.LoginRequiredDelete"/>
+            <decorator class="javax.servlet.http.LoginRequiredGet"/>
+    </servlet>
+
+    <servlet class="servlets.Session" url="/session">
+        <decorator class="javax.servlet.http.LoginRequiredDelete"/>
+        <decorator class="javax.servlet.http.LoginRequiredGet"/>
+    </servlet>
+
+    <servlet class="servlets.GameWebSocketServlet" url="/game">
+    </servlet>
+</servlets>

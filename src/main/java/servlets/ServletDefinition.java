@@ -21,4 +21,8 @@ public class ServletDefinition {
     public String getUrl() {
         return url;
     }
+
+    public void setServlet(HttpServlet servlet) {
+        this.servlet = servlet;
+    }
 }

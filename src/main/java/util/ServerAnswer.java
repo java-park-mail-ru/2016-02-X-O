@@ -4,7 +4,7 @@ package util;
  * Created by kvukolov on 17.02.16.
  */
 public enum ServerAnswer {
-    OK(0),
+    OK_ANSWER(0),
 
 
     BAD_INPUT_DATA(1),
@@ -20,7 +20,6 @@ public enum ServerAnswer {
     WRONG_CREDENTIALS(107),
 
     NO_USER(108);
-
 
     private int value;
     ServerAnswer(int value)
