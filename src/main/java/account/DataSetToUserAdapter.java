@@ -44,6 +44,21 @@ public class DataSetToUserAdapter implements User {
     }
 
     @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof User)
+        {
+            final User user = (User)obj;
+            return user.getLogin().equals(this.getLogin());
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return this.getLogin().hashCode();
+    }
+
+    @Override
     public String getEmail() {
         return userDataset.getEmail();
     }

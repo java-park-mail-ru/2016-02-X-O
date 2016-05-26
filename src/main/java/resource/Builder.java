@@ -25,7 +25,6 @@ public class Builder {
         final SAXParser parser = factory.newSAXParser();
 
         parser.parse(file, handler);
-
         return handler.getObject();
     }
 }

@@ -10,4 +10,7 @@
         <decorator class="javax.servlet.http.LoginRequiredDelete"/>
         <decorator class="javax.servlet.http.LoginRequiredGet"/>
     </servlet>
+
+    <servlet class="servlets.GameWebSocketServlet" url="/game">
+    </servlet>
 </servlets>

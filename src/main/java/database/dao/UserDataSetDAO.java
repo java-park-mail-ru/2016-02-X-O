@@ -17,7 +17,6 @@ public class UserDataSetDAO {
 
     public void save(UserDataset dataSet) {
         session.saveOrUpdate(dataSet);
-        session.flush();
     }
 
     public void update(UserDataset dataset)
@@ -61,6 +60,5 @@ public class UserDataSetDAO {
     public void delete(UserDataset user)
     {
         session.delete(user);
-        session.flush();
     }
 }

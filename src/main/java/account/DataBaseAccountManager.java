@@ -58,15 +58,13 @@ public class DataBaseAccountManager implements AccountManager {
     @Override
     public User getUserBySession(String sessionId) {
         final UserDataset user = dbService.readByName(signedInUsers.get(sessionId));
-        return new DataSetToUserAdapter(user);
+        return user == null ? null : new DataSetToUserAdapter(user);
     }
 
     @Override
     public User getUserByLogin(String login) {
         final UserDataset user = dbService.readByName(login);
-        final UserImpl userr =  new UserImpl(user.getName(), user.getEmail(), user.getPassword());
-        userr.setId(user.getId());
-        return userr;
+        return new DataSetToUserAdapter(user);
     }
 
     @Override

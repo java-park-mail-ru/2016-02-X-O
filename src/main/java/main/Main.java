@@ -4,6 +4,8 @@ package main;
 import account.AccountManager;
 import account.DataBaseAccountManager;
 import database.DBService;
+import mechanics.GameMecahnics;
+import mechanics.WebSocketService;
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.handler.HandlerList;
 import org.eclipse.jetty.server.handler.ResourceHandler;
@@ -13,6 +15,7 @@ import resource.handlers.DBServiceHandler;
 import resource.handlers.RegexManagerHandler;
 import resource.handlers.ServerConfigHandler;
 import resource.handlers.ServletManagerHandler;
+import servlets.GameWebSocketServlet;
 import servlets.ServletDefinition;
 import servlets.ServletManager;
 import org.eclipse.jetty.server.Server;
@@ -29,6 +32,8 @@ public class Main {
 
     public static void main(String[] args) throws Exception {
         final Context context = Context.getInstance();
+        context.add(GameMecahnics.class, new GameMecahnics());
+        context.add(WebSocketService.class, new WebSocketService());
 
         try{
             final DBService dbService = (DBService) new Builder("config/database.xml", new DBServiceHandler()).build();

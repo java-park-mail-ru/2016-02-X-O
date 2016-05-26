@@ -4,4 +4,5 @@
     <regex id="EMAIL_REGEX">\w{2,20}\@\w{2,20}\.\w{2,4}</regex>
     <regex id="PASSWORD_REGEX">.{5,20}</regex>
     <regex id="ID_REGEX">\d+</regex>
+    <regex id="WS_MESSAGE_REGEX">\d\.\d</regex>
 </regexes>

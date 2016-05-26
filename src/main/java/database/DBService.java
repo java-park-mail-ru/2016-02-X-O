@@ -5,6 +5,7 @@ import database.datasets.UserDataset;
 import org.hibernate.*;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.cfg.annotations.TableBinder;
 import org.hibernate.service.ServiceRegistry;
 
 import java.util.List;
@@ -12,53 +13,97 @@ import java.util.List;
 public final class DBService {
     private SessionFactory sessionFactory;
 
-
-
     public DBService(Configuration configuration) {
         configuration.addAnnotatedClass(UserDataset.class);
         sessionFactory = createSessionFactory(configuration);
     }
 
     public void save(UserDataset dataSet) {
-        final Session session = sessionFactory.openSession();
-        final Transaction transaction = session.beginTransaction();
-        final UserDataSetDAO dao = new UserDataSetDAO(session);
-        dao.save(dataSet);
-        transaction.commit();
-    }
-
-    public void update(UserDataset dataSet)
-    {
-        final Session session = sessionFactory.openSession();
-        final Transaction transaction = session.beginTransaction();
-        final UserDataSetDAO dao = new UserDataSetDAO(session);
-        dao.update(dataSet);
-        transaction.commit();
+        Session session = null;
+        try
+        {
+            session = sessionFactory.openSession();
+            final Transaction transaction = session.beginTransaction();
+            final UserDataSetDAO dao = new UserDataSetDAO(session);
+            dao.save(dataSet);
+            transaction.commit();
+        }
+        finally {
+            if (session != null)
+            {
+                session.close();
+            }
+        }
     }
 
     public UserDataset readByName(String name) {
-        final Session session = sessionFactory.openSession();
-        final UserDataSetDAO dao = new UserDataSetDAO(session);
-        return dao.readByName(name);
+        Session session = null;
+        try
+        {
+            session = sessionFactory.openSession();
+            final Transaction transaction = session.beginTransaction();
+            final UserDataSetDAO dao = new UserDataSetDAO(session);
+            final UserDataset dataset = dao.readByName(name);
+            transaction.commit();
+            return dataset;
+        }
+        catch (HibernateException e)
+        {
+            return null;
+        }
+        finally {
+            if (session != null)
+            {
+                session.close();
+            }
+        }
     }
 
     public UserDataset readByEmail(String email) {
-        final Session session = sessionFactory.openSession();
-        final UserDataSetDAO dao = new UserDataSetDAO(session);
-        return dao.readByEmail(email);
+        Session session = null;
+        try
+        {
+            session = sessionFactory.openSession();
+            final Transaction transaction = session.beginTransaction();
+            final UserDataSetDAO dao = new UserDataSetDAO(session);
+            final UserDataset dataset = dao.readByEmail(email);
+            transaction.commit();
+            return dataset;
+        }
+        catch (HibernateException e)
+        {
+            return null;
+        }
+        finally {
+            if (session != null)
+            {
+                session.close();
+            }
+        }
     }
 
     public UserDataset readById(Long id)
     {
-        final Session session = sessionFactory.openSession();
-        final UserDataSetDAO dao = new UserDataSetDAO(session);
-        return dao.readById(id);
-    }
-
-    public List<UserDataset> readAll() {
-        final Session session = sessionFactory.openSession();
-        final UserDataSetDAO dao = new UserDataSetDAO(session);
-        return dao.readAll();
+        Session session = null;
+        try
+        {
+            session = sessionFactory.openSession();
+            final Transaction transaction = session.beginTransaction();
+            final UserDataSetDAO dao = new UserDataSetDAO(session);
+            final UserDataset dataset = dao.readById(id);
+            transaction.commit();
+            return dataset;
+        }
+        catch (HibernateException e)
+        {
+            return null;
+        }
+        finally {
+            if (session != null)
+            {
+                session.close();
+            }
+        }
     }
 
     public void shutdown(){
@@ -70,18 +115,6 @@ public final class DBService {
         builder.applySettings(configuration.getProperties());
         final ServiceRegistry serviceRegistry = builder.build();
         return configuration.buildSessionFactory(serviceRegistry);
-    }
-
-    public int readUsersSize() {
-        final Session session = sessionFactory.openSession();
-        final UserDataSetDAO dao = new UserDataSetDAO(session);
-        return dao.readUsersSize();
-    }
-
-    public List<UserDataset> readTopN(int n) {
-        final Session session = sessionFactory.openSession();
-        final UserDataSetDAO dao = new UserDataSetDAO(session);
-        return dao.readTopN(n);
     }
 
     public void deleteByLogin(String login)
@@ -96,20 +129,6 @@ public final class DBService {
         }
         finally {
             transaction.commit();
-            session.close();
-        }
-    }
-
-    public void truncate()
-    {
-        final Session session = sessionFactory.openSession();
-        try{
-            final Transaction transaction = session.beginTransaction();
-            session.createSQLQuery("truncate table users").executeUpdate();
-            transaction.commit();
-            session.close();
-        }
-        finally {
             session.close();
         }
     }
