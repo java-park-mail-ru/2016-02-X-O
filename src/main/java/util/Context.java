@@ -24,8 +24,9 @@ public final class Context {
         }
     }
 
-    public Object get(Class<?> clazz)
+    public <T> T get(Class<T> clazz)
     {
-        return context.get(clazz);
+        //noinspection unchecked
+        return (T) context.get(clazz);
     }
 }

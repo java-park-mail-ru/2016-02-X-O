@@ -1,7 +1,6 @@
 package mechanics;
 
 import account.User;
-import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
 import util.Context;
 import util.ResponseJson;
 
@@ -26,7 +25,7 @@ public class GameSession {
         try
         {
             webSocketService.getSocketByUser(firstPlayer).send(buildStartGameMessage(secondPlayer).toString());
-            webSocketService.getSocketByUser(firstPlayer).send(new ResponseJson().put("status", 0).append("map", null).toString());
+            webSocketService.getSocketByUser(firstPlayer).send(new ResponseJson().put("status", GameEvents.CONTINUE_GAME.getValue()).append("map", null).toString());
             webSocketService.getSocketByUser(secondPlayer).send(buildStartGameMessage(firstPlayer).toString());
         }
         catch (IOException e)
@@ -47,7 +46,7 @@ public class GameSession {
             final GameWebSocket webSocket = turn.getUser().equals(firstPlayer) ?
                     webSocketService.getSocketByUser(secondPlayer):
                     webSocketService.getSocketByUser(firstPlayer);
-            gameMap.put("status", GameEvents.CONTINUE_GAME);
+            gameMap.put("status", GameEvents.CONTINUE_GAME.getValue());
             try
             {
                 webSocket.send(gameMap.toString());
@@ -62,8 +61,12 @@ public class GameSession {
                 case GAME_END:
                     try
                     {
-                        webSocketService.getSocketByUser(firstPlayer).send("GAME END");
-                        webSocketService.getSocketByUser(secondPlayer).send("GAME END");
+                        final Long winner = turn.getUser().getId();
+                        final ResponseJson responseJson = new ResponseJson();
+                        responseJson.put("status", GameEvents.GAME_END.getValue());
+                        responseJson.put("winner", winner);
+                        webSocketService.getSocketByUser(firstPlayer).send(responseJson.toString());
+                        webSocketService.getSocketByUser(secondPlayer).send(responseJson.toString());
                     }
                     catch (IOException err)
                     {
@@ -77,7 +80,7 @@ public class GameSession {
                             webSocketService.getSocketByUser(firstPlayer):
                             webSocketService.getSocketByUser(secondPlayer);
                     final ResponseJson responseJson = new ResponseJson();
-                    responseJson.put("status", e.getReason());
+                    responseJson.put("status", e.getReason().getValue());
                     try
                     {
                         webSocket.send(responseJson.toString());
@@ -101,7 +104,7 @@ public class GameSession {
                 webSocketService.getSocketByUser(firstPlayer);
 
             final ResponseJson responseJson = new ResponseJson();
-        responseJson.put("status", GameEvents.OPPONENT_DISCONNECT);
+        responseJson.put("status", GameEvents.OPPONENT_DISCONNECT.getValue());
         try
         {
             if (webSocket != null)
@@ -133,7 +136,7 @@ public class GameSession {
     private ResponseJson buildStartGameMessage(User opponent)
     {
         final ResponseJson responseJson = new ResponseJson();
-        responseJson.put("status", GameEvents.START_GAME);
+        responseJson.put("status", GameEvents.START_GAME.getValue());
         responseJson.put("opponentName", opponent.getLogin());
         return responseJson;
     }
