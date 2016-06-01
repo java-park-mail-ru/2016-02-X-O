@@ -238,11 +238,6 @@ public class TicTacToeGame {
         public void fill(ArrayList<Integer> ids) throws GameException {
             final int id = ids.get(0);
             final int setId = ids.get(1);
-            final Field field = fields[id];
-            if (field.filled != null)
-            {
-                currentId = -1;
-            }
             if (this.currentId != -1 && id != currentId)
             {
                 throw new GameException(GameEvents.ERROR_WRONG_SQUARE);
@@ -251,6 +246,12 @@ public class TicTacToeGame {
             super.fill(ids);
 
             currentId = setId;
+
+            final Field field = fields[setId];
+            if (field.filled != null)
+            {
+                currentId = -1;
+            }
 
             if (haveCompleteHorizontalLines() != null ||
                     haveCompleteVerticalLines() != null ||
