@@ -75,6 +75,20 @@ public class GameSession {
                     endGame();
                     break;
 
+                case DRAW:
+                    try
+                    {
+                        final ResponseJson responseJson = new ResponseJson();
+                        responseJson.put("status", GameEvents.DRAW.getValue());
+                        webSocketService.getSocketByUser(firstPlayer).send(responseJson.toString());
+                        webSocketService.getSocketByUser(secondPlayer).send(responseJson.toString());
+                    }
+                    catch (IOException err)
+                    {
+                        err.printStackTrace();
+                    }
+                    endGame();
+
                 default:
                     final GameWebSocket webSocket = turn.getUser().equals(firstPlayer) ?
                             webSocketService.getSocketByUser(firstPlayer):

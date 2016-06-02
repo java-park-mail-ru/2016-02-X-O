@@ -68,6 +68,19 @@ public class TicTacToeGame {
 
         abstract List<String> getMap();
 
+        public Integer getFilledCount()
+        {
+            Integer count = 0;
+            for (Field field: fields)
+            {
+                if (field.filled != null)
+                {
+                    count++;
+                }
+            }
+            return count;
+        }
+
         public void fill(ArrayList<Integer> ids) throws GameException
         {
             if (ids.get(0) >= fields.length)
@@ -258,6 +271,10 @@ public class TicTacToeGame {
                     haveCompleteDiagonalLines() != null)
             {
                 throw new GameException(GameEvents.GAME_END);
+            }
+            if (getFilledCount() == fields.length)
+            {
+                throw new GameException(GameEvents.DRAW);
             }
         }
     }
