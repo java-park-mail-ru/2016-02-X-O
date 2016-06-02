@@ -261,7 +261,7 @@ public class TicTacToeGame {
             currentId = setId;
 
             final Field field = fields[setId];
-            if (field.filled != null)
+            if (field.filled != null || field.getFilledCount().equals(fields.length))
             {
                 currentId = -1;
             }
@@ -272,7 +272,7 @@ public class TicTacToeGame {
             {
                 throw new GameException(GameEvents.GAME_END);
             }
-            if (getFilledCount() == fields.length)
+            if (getFilledCount().equals(fields.length))
             {
                 throw new GameException(GameEvents.DRAW);
             }
