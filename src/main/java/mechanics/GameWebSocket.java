@@ -37,7 +37,6 @@ public class GameWebSocket {
     @OnWebSocketMessage
     public void onMessage(String data)
     {
-        System.out.println("Web socket message " + this.user.getLogin());
         final GameMecahnics gameMecahnics = context.get(GameMecahnics.class);
         gameMecahnics.processMessage(user, data);
     }

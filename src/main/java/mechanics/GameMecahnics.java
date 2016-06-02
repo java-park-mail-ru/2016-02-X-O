@@ -57,7 +57,7 @@ public class GameMecahnics {
             return;
         }
 
-        System.out.println("TURN");
+        System.out.println(user.getLogin() + ' ' + message);
 
         final String[] ids = message.split("\\.");
         final Integer id1 = Integer.parseInt(ids[0]);
