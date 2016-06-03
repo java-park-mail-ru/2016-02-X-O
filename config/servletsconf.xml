@@ -11,6 +11,9 @@
         <decorator class="javax.servlet.http.LoginRequiredGet"/>
     </servlet>
 
+    <servlet class="servlets.TopUsers" url="/top">
+    </servlet>
+
     <servlet class="servlets.GameWebSocketServlet" url="/game">
     </servlet>
 </servlets>

@@ -49,6 +49,7 @@ public class User extends HttpServlet {
         responseJson.put("id", id);
         responseJson.put("login", user.getLogin());
         responseJson.put("email", user.getEmail());
+        responseJson.put("score", user.getScore());
         resp.setStatus(HttpServletResponse.SC_OK);
         resp.getWriter().println(responseJson);
     }

@@ -70,6 +70,16 @@ public class DataSetToUserAdapter implements User {
 
     @Override
     public void save(){
-        ((DBService) Context.getInstance().get(DBService.class)).save(userDataset);
+        (Context.getInstance().get(DBService.class)).save(userDataset);
+    }
+
+    @Override
+    public Integer getScore() {
+        return userDataset.getScore();
+    }
+
+    @Override
+    public void setScore(Integer score) {
+        userDataset.setScore(score);
     }
 }

@@ -132,4 +132,19 @@ public final class DBService {
             session.close();
         }
     }
+
+    public List<UserDataset> readTopNUsers(Integer n)
+    {
+        final Session session = sessionFactory.openSession();
+        final Transaction transaction = session.beginTransaction();
+        try
+        {
+            final UserDataSetDAO dao = new UserDataSetDAO(session);
+            return dao.readTopN(n);
+        }
+        finally {
+            transaction.commit();
+            session.close();
+        }
+    }
 }

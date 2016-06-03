@@ -1,6 +1,9 @@
 package database.datasets;
 
+import org.hibernate.annotations.ColumnDefault;
+
 import javax.persistence.*;
+import javax.persistence.criteria.CriteriaBuilder;
 
 @Entity
 @Table(name = "users")
@@ -20,10 +23,23 @@ public class UserDataset
     @Column(name = "password")
     private String password;
 
+    @Column(name = "score")
+    @ColumnDefault("0")
+    private Integer score;
+
     public UserDataset(String name, String email, String password) {
         this.login = name;
         this.email = email;
         this.password = password;
+        this.score = 0;
+    }
+
+    public Integer getScore() {
+        return score;
+    }
+
+    public void setScore(Integer score) {
+        this.score = score;
     }
 
     public UserDataset(){}

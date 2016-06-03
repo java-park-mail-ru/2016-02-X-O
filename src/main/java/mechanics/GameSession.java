@@ -1,6 +1,7 @@
 package mechanics;
 
 import account.User;
+import database.DBService;
 import util.Context;
 import util.ResponseJson;
 
@@ -62,6 +63,8 @@ public class GameSession {
                     try
                     {
                         final Long winner = turn.getUser().getId();
+                        turn.getUser().setScore(turn.getUser().getScore() + 3);
+                        turn.getUser().save();
                         final ResponseJson responseJson = new ResponseJson();
                         responseJson.put("status", GameEvents.GAME_END.getValue());
                         responseJson.put("winner", winner);
@@ -79,6 +82,10 @@ public class GameSession {
                     try
                     {
                         final ResponseJson responseJson = new ResponseJson();
+                        firstPlayer.setScore(firstPlayer.getScore() + 1);
+                        secondPlayer.setScore(secondPlayer.getScore() + 1);
+                        firstPlayer.save();
+                        secondPlayer.save();
                         responseJson.put("status", GameEvents.DRAW.getValue());
                         webSocketService.getSocketByUser(firstPlayer).send(responseJson.toString());
                         webSocketService.getSocketByUser(secondPlayer).send(responseJson.toString());

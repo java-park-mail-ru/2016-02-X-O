@@ -57,4 +57,14 @@ public class UserImpl implements User {
     public void save() {
 
     }
+
+    @Override
+    public Integer getScore() {
+        return 0;
+    }
+
+    @Override
+    public void setScore(Integer score) {
+
+    }
 }

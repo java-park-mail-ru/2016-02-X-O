@@ -21,4 +21,7 @@ public interface User {
     String getPassword();
 
     void save();
+
+    Integer getScore();
+    void setScore(Integer score);
 }
