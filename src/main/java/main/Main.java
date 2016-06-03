@@ -36,7 +36,7 @@ public class Main {
         context.add(WebSocketService.class, new WebSocketService());
 
         try{
-            final DBService dbService = (DBService) new Builder("config/database-deploy.xml", new DBServiceHandler()).build();
+            final DBService dbService = (DBService) new Builder("config/database.xml", new DBServiceHandler()).build();
             context.add(DBService.class, dbService);
         }
         catch (HibernateException e)
