@@ -53,7 +53,7 @@ public class UserDataSetDAO {
     @SuppressWarnings("unchecked")
     public List<UserDataset> readTopN(int n) {
         final Criteria criteria = session.createCriteria(UserDataset.class);
-        criteria.addOrder(Order.asc("score")).setMaxResults(n);
+        criteria.addOrder(Order.desc("score")).setMaxResults(n);
         return (List<UserDataset>) criteria.list();
     }
 

@@ -11,7 +11,7 @@ import javax.servlet.annotation.WebServlet;
  */
 @WebServlet(name = "GameWebSocketServlet", urlPatterns = {"/game"})
 public class GameWebSocketServlet extends WebSocketServlet {
-    private static final int IDLE_TIME = 60 * 1000;
+    private static final int IDLE_TIME = 600 * 1000;
 
     @Override
     public void configure(WebSocketServletFactory factory) {

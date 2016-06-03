@@ -6,6 +6,8 @@ import account.DataBaseAccountManager;
 import database.DBService;
 import mechanics.GameMecahnics;
 import mechanics.WebSocketService;
+import org.eclipse.jetty.io.Connection;
+import org.eclipse.jetty.server.Connector;
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.handler.HandlerList;
 import org.eclipse.jetty.server.handler.ResourceHandler;
@@ -60,12 +62,8 @@ public class Main {
             contextHandler.addServlet(new ServletHolder(definition.getServlet()), definition.getUrl());
         }
 
-        final ResourceHandler resourceHandler = new ResourceHandler();
-        resourceHandler.setDirectoriesListed(true);
-        resourceHandler.setResourceBase("public_html");
-
         final HandlerList handlers = new HandlerList();
-        handlers.setHandlers(new Handler[]{resourceHandler, contextHandler});
+        handlers.setHandlers(new Handler[]{contextHandler});
 
         final Server server = new Server(serverConfig.getPort());
         server.setHandler(handlers);
