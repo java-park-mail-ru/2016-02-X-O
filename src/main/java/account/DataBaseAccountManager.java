@@ -74,9 +74,7 @@ public class DataBaseAccountManager implements AccountManager {
         {
             return null;
         }
-        final UserImpl userr =  new UserImpl(user.getName(), user.getEmail(), user.getPassword());
-        userr.setId(user.getId());
-        return userr;
+        return new DataSetToUserAdapter(user);
     }
 
     @Override
