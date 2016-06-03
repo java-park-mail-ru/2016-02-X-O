@@ -42,6 +42,7 @@ public class GameMecahnics {
         {
             session.disconnect(user);
         }
+        waitList.remove(user);
     }
 
     public void endSession(User user)

@@ -86,9 +86,4 @@ public class InmemoryAccountManager implements AccountManager {
     public void deleteUser(String login) {
         signedUpUsers.remove(login);
     }
-
-    @Override
-    public void updateUser(long id, User user) {
-
-    }
 }

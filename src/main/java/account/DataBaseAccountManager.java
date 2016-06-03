@@ -81,9 +81,4 @@ public class DataBaseAccountManager implements AccountManager {
     public void deleteUser(String login) {
         dbService.deleteByLogin(login);
     }
-
-    @Override
-    public void updateUser(long id, User user) {
-
-    }
 }

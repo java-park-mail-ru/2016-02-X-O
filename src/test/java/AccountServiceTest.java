@@ -61,6 +61,8 @@ public class AccountServiceTest {
 
         answer = accountManager.authenticate(sessionId, otherLogin, password);
         TestCase.assertEquals(answer, ServerAnswer.WRONG_CREDENTIALS);
+        answer = accountManager.authenticate(sessionId, login, password + '1');
+        TestCase.assertEquals(answer, ServerAnswer.WRONG_CREDENTIALS);
 
         boolean auth = accountManager.isAuthenticated(sessionId);
         TestCase.assertEquals(auth, true);
@@ -83,9 +85,18 @@ public class AccountServiceTest {
     public void getUserTest(){
         accountManager.addUser(login, email, password);
         final User user = accountManager.getUserByLogin(login);
+        long id = user.getId();
         TestCase.assertEquals(login, user.getLogin());
         TestCase.assertEquals(email, user.getEmail());
         TestCase.assertEquals(password, user.getPassword());
+
+        User byIdUser = accountManager.getUserById(id);
+        TestCase.assertEquals(login, byIdUser.getLogin());
+        TestCase.assertEquals(email, byIdUser.getEmail());
+        TestCase.assertEquals(password, byIdUser.getPassword());
+
+        byIdUser = accountManager.getUserById(100000);
+        TestCase.assertEquals(byIdUser, null);
 
         accountManager.deleteUser(login);
     }
