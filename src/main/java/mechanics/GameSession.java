@@ -15,6 +15,11 @@ public class GameSession {
     User secondPlayer;
     TicTacToeGame ticTacToeGame;
 
+    @Override
+    public int hashCode() {
+        return (firstPlayer.getLogin() + secondPlayer.getLogin()).hashCode();
+    }
+
     public GameSession(User firstPlayer, User secondPlayer) {
         this.firstPlayer = firstPlayer;
         this.secondPlayer = secondPlayer;
@@ -28,6 +33,26 @@ public class GameSession {
             webSocketService.getSocketByUser(firstPlayer).send(buildStartGameMessage(secondPlayer).toString());
             webSocketService.getSocketByUser(firstPlayer).send(new ResponseJson().put("status", GameEvents.CONTINUE_GAME.getValue()).append("map", null).toString());
             webSocketService.getSocketByUser(secondPlayer).send(buildStartGameMessage(firstPlayer).toString());
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    public void sendMessage(User fromUser, String mesage)
+    {
+        final User toUser = fromUser.equals(firstPlayer) ? secondPlayer : firstPlayer;
+        final WebSocketService webSocketService = Context
+                .getInstance()
+                .get(WebSocketService.class);
+        final GameWebSocket gameWebSocket = webSocketService.getSocketByUser(toUser);
+        final ResponseJson responseJson = new ResponseJson();
+        responseJson.put("status", GameEvents.NEW_MESSAGE.getValue());
+        responseJson.put("message", mesage);
+        try
+        {
+            gameWebSocket.send(responseJson.toString());
         }
         catch (IOException e)
         {

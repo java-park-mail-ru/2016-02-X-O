@@ -1,12 +1,14 @@
 package mechanics;
 
 import account.User;
-import util.RegexCheckedParameter;
-import util.RegexId;
-import util.ServerAnswer;
-import util.Util;
+import org.json.JSONException;
+import org.json.JSONObject;
+import util.*;
 
 import java.util.*;
+import java.util.function.ObjDoubleConsumer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Created by kvukolov on 25.05.16.
@@ -52,18 +54,35 @@ public class GameMecahnics {
 
     public void processMessage(User user, String message)
     {
-        RegexCheckedParameter[] regexCheckedParameters = {new RegexCheckedParameter(message, RegexId.WS_MESSAGE_REGEX, ServerAnswer.BAD_INPUT_DATA)};
+        final Logger logger = Logger.getLogger("WebSocketInfo");
+        final RegexCheckedParameter[] regexCheckedParameters = {new RegexCheckedParameter(message, RegexId.WS_MESSAGE_REGEX, ServerAnswer.BAD_INPUT_DATA)};
         if (Util.checkParamersByRegex(regexCheckedParameters) != ServerAnswer.OK_ANSWER)
         {
+            System.out.println("Bad ws regex");
             return;
         }
 
-        System.out.println(user.getLogin() + ' ' + message);
-
-        final String[] ids = message.split("\\.");
-        final Integer id1 = Integer.parseInt(ids[0]);
-        final Integer id2 = Integer.parseInt(ids[1]);
-        final GameTurn turn = new GameTurn(user, id1, id2);
-        gameMap.get(user).processTurn(turn);
+        try
+        {
+            final JSONObject jsonObject = new JSONObject(message);
+            final String sendMessage = (String)jsonObject.get("message");
+            final GameSession gameSession = gameMap.get(user);
+            gameSession.sendMessage(user, sendMessage);
+            logger.log(Level.INFO, "{0}:Message \"{1}\" from user {2}", new Object[] {
+                gameSession.hashCode(), sendMessage, user.getLogin()
+            });
+        }
+        catch (JSONException e)
+        {
+            GameSession gameSession = gameMap.get(user);
+            logger.log(Level.INFO, "{0}:Turn {1} from user {2}", new Object[] {
+                    gameSession.hashCode(), message, user.getLogin()
+            });
+            final String[] ids = message.split("\\.");
+            final Integer id1 = Integer.parseInt(ids[0]);
+            final Integer id2 = Integer.parseInt(ids[1]);
+            final GameTurn turn = new GameTurn(user, id1, id2);
+            gameSession.processTurn(turn);
+        }
     }
 }

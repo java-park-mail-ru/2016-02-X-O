@@ -83,7 +83,6 @@ public class TicTacToeGame {
 
         public void fill(ArrayList<Integer> ids) throws GameException
         {
-            System.out.println(ids.get(0));
             if (ids.get(0) >= fields.length)
             {
                 throw new GameException(GameEvents.ERROR_WRONG_DATA);

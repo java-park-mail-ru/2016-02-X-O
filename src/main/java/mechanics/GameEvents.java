@@ -12,6 +12,7 @@ public enum GameEvents {
     GAME_END(5),
     OPPONENT_DISCONNECT(6),
     DRAW(7),
+    NEW_MESSAGE(8),
 
     ERROR_FIELD_BUSY(101),
     ERROR_WRONG_SQUARE(102),

@@ -10,6 +10,8 @@ import org.eclipse.jetty.websocket.api.annotations.WebSocket;
 import util.Context;
 
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Created by kvukolov on 19.05.16.
@@ -29,8 +31,9 @@ public class GameWebSocket {
     public void onOpen(Session remoteSession)
     {
         this.session = remoteSession;
-        System.out.println("Web socket connect " + this.user.getLogin());
-        final WebSocketService webSocketService = (WebSocketService) context.get(WebSocketService.class);
+        final Logger logger = Logger.getLogger("WebSocketInfo");
+        logger.log(Level.INFO, "Web socket connect {0}", this.user.getLogin());
+        final WebSocketService webSocketService = context.get(WebSocketService.class);
         webSocketService.addWebSocket(this.user, this);
     }
 
