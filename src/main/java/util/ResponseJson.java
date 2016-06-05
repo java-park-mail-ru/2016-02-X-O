@@ -13,7 +13,7 @@ public class ResponseJson extends JSONObject {
 
     public void clear()
     {
-        Iterator<String> iterator = this.keys();
+        final Iterator<String> iterator = this.keys();
         while (iterator.hasNext())
         {
             iterator.next();

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<database>
+    <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>
+    <property name="hibernate.connection.driver_class" value="org.postgresql.Driver"/>
+    <property name="hibernate.connection.url" value="jdbc:postgresql://localhost:5432/dbbgcr2r5t107l"/>
+    <property name="hibernate.connection.username" value="xfgksasovdjmop"/>
+    <property name="hibernate.connection.password" value="AhBUPqwE2ODwycqo2P99wsaug6"/>
+    <property name="hibernate.show_sql" value="true"/>
+</database>

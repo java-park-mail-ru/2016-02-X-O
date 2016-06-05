@@ -1,47 +1,27 @@
 package account;
 
-public class User {
+/**
+ * Created by kvukolov on 05.05.16.
+ */
+public interface User {
+    long getId();
 
-    private String login = null;
-    private String email = null;
-    private String password = null;
-    private long id;
+    void setId(long id);
 
-    public User(String login, String email, String password) {
-        this.login = login;
-        this.email = email;
-        this.password = password;
-    }
+    void setLogin(String login);
 
-    public long getId() {
-        return id;
-    }
+    void setEmail(String email);
 
-    public void setId(long id) {
-        this.id = id;
-    }
+    void setPassword(String password);
 
-    public void setLogin(String login) {
-        this.login = login;
-    }
+    String getLogin();
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+    String getEmail();
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
+    String getPassword();
 
-    public String getLogin() {
-        return login;
-    }
+    void save();
 
-    public String getEmail() {
-        return email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
+    Integer getScore();
+    void setScore(Integer score);
 }
